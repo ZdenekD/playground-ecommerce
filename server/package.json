@@ -1,0 +1,39 @@
+{
+  "author": "developer",
+  "name": "project-name",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "license": "MIT",
+  "homepage": "git@github.com:Developer/project-name.git#readme",
+  "repository": "git@github.com:Developer/project-name.git",
+  "scripts": {
+    "clean": "rm -rf ./dist/*",
+    "reinstall": "rm -rf 'yarn.lock' 'node_modules' && yarn",
+    "start": "nodemon server.js",
+    "format:scripts": "eslint --cache --ext .js,.jsx --fix ./",
+    "format:prettier": "prettier --write '**/*.{json,md,yml,html}'",
+    "format": "yarn format:scripts && yarn format:prettier"
+  },
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6.9.0"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.10.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.21.3",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "prettier": "^2.1.2"
+  }
+}
