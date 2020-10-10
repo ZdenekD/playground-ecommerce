@@ -6,6 +6,8 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
+import categoryRoutes from './routes/category';
+import productRoutes from './routes/product';
 
 dotenv.config();
 
@@ -21,6 +23,8 @@ server.use(cookieParser());
 // Routes
 server.use('/api', authRoutes);
 server.use('/api', userRoutes);
+server.use('/api', categoryRoutes);
+server.use('/api', productRoutes);
 
 server.listen(port, error => {
     if (error) {

@@ -1,30 +1,28 @@
 import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import dotenv from 'dotenv';
-import {validationResult} from 'express-validator';
+import handleError from '../helpers/error';
 import User from '../models/user';
 
 dotenv.config();
 
 // eslint-disable-next-line consistent-return
 const signup = (req, res) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return res.status(400).json({error: errors.array().map(error => error.msg)[0]});
+    if (handleError(req)) {
+        return res.status(400).json({error: handleError(req)});
     }
 
     const user = new User(req.body);
 
-    user.save((error, item) => {
+    user.save((error, data) => {
         if (error) {
             return res.status(400).json({error});
         }
 
         return res.json({
             user: {
-                name: item.name,
-                email: item.email,
+                name: data.name,
+                email: data.email,
 
             },
         });
