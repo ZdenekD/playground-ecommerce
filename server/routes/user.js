@@ -1,11 +1,12 @@
 import express from 'express';
-import {signup, signin, signout} from '../controllers/user';
-import validation from '../validations/user';
+import {requireSignin, isAuth, isAdmin} from '../controllers/auth';
+import userById from '../controllers/user';
 
 const router = express.Router();
 
-router.post('/signup', validation, signup);
-router.post('/signin', signin);
-router.get('/signout', signout);
+router.get('/secret/:userId', requireSignin, isAuth, isAdmin, (req, res) => {
+    res.json({user: req.profile});
+});
+router.param('userId', userById);
 
 export default router;

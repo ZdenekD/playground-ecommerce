@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 
 dotenv.config();
@@ -18,6 +19,7 @@ server.use(bodyParser.json());
 server.use(cookieParser());
 
 // Routes
+server.use('/api', authRoutes);
 server.use('/api', userRoutes);
 
 server.listen(port, error => {
