@@ -14,7 +14,14 @@ const create = (req, res) => {
             return res.status(400).json({error: 'Image could not be uploaded'});
         }
 
-        const {name, description, price, category, quantity, shipping} = fields;
+        const {
+            name,
+            description,
+            price,
+            category,
+            quantity,
+            shipping,
+        } = fields;
 
         if (
             !name
@@ -77,7 +84,14 @@ const update = (req, res) => {
             return res.status(400).json({error: 'Image could not be uploaded'});
         }
 
-        const {name, description, price, category, quantity, shipping} = fields;
+        const {
+            name,
+            description,
+            price,
+            category,
+            quantity,
+            shipping,
+        } = fields;
 
         if (
             !name
@@ -114,8 +128,23 @@ const update = (req, res) => {
     });
 };
 
+// eslint-disable-next-line consistent-return
+const productImage = (req, res, next) => {
+    if (req.product.image.data) {
+        res.set('Content-Type', req.product.image.contentType);
+
+        return res.send(req.product.image.data);
+    }
+
+    next();
+};
+
 const list = (req, res) => {
-    const {order = 'asc', sortBy = '_id', limit = 6} = req.query;
+    const {
+        order = 'asc',
+        sortBy = '_id',
+        limit = 6,
+    } = req.query;
 
     Product
         .find()
@@ -154,6 +183,63 @@ const listRelated = (req, res) => {
         });
 };
 
+const listCategories = (req, res) => {
+    Product
+        // eslint-disable-next-line consistent-return
+        .distinct('category', {}, (error, data) => {
+            if (error) {
+                return res.status(400).json({error: 'Products not found'});
+            }
+
+            res.json(data);
+        });
+};
+
+const listBySearch = (req, res) => {
+    const {
+        order = 'desc',
+        sortBy = '_id',
+        limit = 100,
+        skip,
+        filters,
+    } = req.body;
+    const findArgs = {};
+
+    if (filters) {
+        Object.keys(filters).forEach(key => {
+            if (filters[key].length > 0) {
+                if (key === 'price') {
+                    findArgs[key] = {
+                        $gte: filters[key][0],
+                        $lte: filters[key][1],
+                    };
+                } else {
+                    findArgs[key] = filters[key];
+                }
+            }
+        });
+    }
+
+    Product
+        .find(findArgs)
+        .select('-image')
+        .populate('category')
+        .sort([[sortBy, order]])
+        .skip(parseInt(skip, 10))
+        .limit(parseInt(limit, 10))
+        // eslint-disable-next-line consistent-return
+        .exec((error, data) => {
+            if (error) {
+                return res.status(400).json({error: 'Products not found'});
+            }
+
+            res.json({
+                size: data.length,
+                data,
+            });
+        });
+};
+
 const productById = (req, res, next, id) => {
     Product.findById(id).exec((error, product) => {
         if (error || !product) {
@@ -167,5 +253,5 @@ const productById = (req, res, next, id) => {
 };
 
 export {
-    create, read, remove, update, list, listRelated, productById
+    create, read, remove, update, list, productImage, listRelated, listCategories, listBySearch, productById
 };
