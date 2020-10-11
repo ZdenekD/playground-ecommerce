@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 import categoryRoutes from './routes/category';
@@ -19,6 +20,7 @@ const server = express();
 server.use(morgan('dev'));
 server.use(bodyParser.json());
 server.use(cookieParser());
+server.use(cors());
 
 // Routes
 server.use('/api', authRoutes);
