@@ -114,6 +114,46 @@ const update = (req, res) => {
     });
 };
 
+const list = (req, res) => {
+    const {order = 'asc', sortBy = '_id', limit = 6} = req.query;
+
+    Product
+        .find()
+        .select('-image')
+        .populate('category')
+        .sort([[sortBy, order]])
+        .limit(parseInt(limit, 10))
+        // eslint-disable-next-line consistent-return
+        .exec((error, data) => {
+            if (error) {
+                return res.status(400).json({error: 'Products not found'});
+            }
+
+            res.json(data);
+        });
+};
+
+const listRelated = (req, res) => {
+    const {limit = 6} = req.query;
+
+    Product
+        .find({
+            _id: {$ne: req.product},
+            category: req.product.category,
+        })
+        .select('-image')
+        .limit(parseInt(limit, 10))
+        .populate('category', '_id name')
+        // eslint-disable-next-line consistent-return
+        .exec((error, data) => {
+            if (error) {
+                return res.status(400).json({error: 'Products not found'});
+            }
+
+            res.json(data);
+        });
+};
+
 const productById = (req, res, next, id) => {
     Product.findById(id).exec((error, product) => {
         if (error || !product) {
@@ -127,5 +167,5 @@ const productById = (req, res, next, id) => {
 };
 
 export {
-    create, read, remove, update, productById
+    create, read, remove, update, list, listRelated, productById
 };
