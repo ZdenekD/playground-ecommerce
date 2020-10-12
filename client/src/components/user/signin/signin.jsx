@@ -2,7 +2,7 @@ import React from 'react';
 import {Redirect} from 'react-router-dom';
 import Layout from '../../layout';
 import signIn from '../../../api/user/signin';
-import {auth} from '../../../api/user/auth';
+import {auth, isAuth} from '../../../api/user/auth';
 
 const SignIn = () => {
     const initialState = {
@@ -13,6 +13,7 @@ const SignIn = () => {
         redirectTo: false,
     };
     const [data, setData] = React.useState(initialState);
+    const {user} = isAuth();
     const handleChange = event => {
         event.persist();
 
@@ -49,6 +50,20 @@ const SignIn = () => {
                 }
             });
     };
+    // eslint-disable-next-line consistent-return
+    const handleRedirect = () => {
+        if (data.redirectTo) {
+            if (user && user.role === 1) {
+                return <Redirect to="/admin/dashboard" />;
+            }
+
+            return <Redirect to="/user/dashboard" />;
+        }
+
+        if (isAuth()) {
+            return <Redirect to="/" />;
+        }
+    };
 
     return (
         <Layout
@@ -68,10 +83,6 @@ const SignIn = () => {
                         <span className='sr-only'>Loading...</span>
                     </div>
                 </div>
-            )}
-
-            {data.redirectTo && (
-                <Redirect to='/' />
             )}
 
             <form>
@@ -102,6 +113,8 @@ const SignIn = () => {
                     onClick={handleClick}
                 >Submit</button>
             </form>
+
+            {handleRedirect()}
         </Layout>
     );
 };

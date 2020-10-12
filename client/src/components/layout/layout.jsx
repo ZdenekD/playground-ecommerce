@@ -6,7 +6,7 @@ const Layout = ({title = 'E-Commerce', description = '', className, children}) =
     <>
         <Menu />
         <div className='jumbotron'>
-            <div className="container col-md-8 offset-md-2">
+            <div className="container">
                 <h2>{title}</h2>
                 <p className='lead'>
                     {description}

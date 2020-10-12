@@ -25,6 +25,32 @@ const Menu = ({history}) => {
                     </NavLink>
                 </li>
 
+                {isAuth() && isAuth().user.role === 0 && (
+                    <li className='nav-item'>
+                        <NavLink
+                            exact
+                            to='/user/dashboard'
+                            className='nav-link'
+                            activeClassName='nav-link active'
+                        >
+                            Dashboard
+                        </NavLink>
+                    </li>
+                )}
+
+                {isAuth() && isAuth().user.role === 1 && (
+                    <li className='nav-item'>
+                        <NavLink
+                            exact
+                            to='/admin/dashboard'
+                            className='nav-link'
+                            activeClassName='nav-link active'
+                        >
+                            Dashboard
+                        </NavLink>
+                    </li>
+                )}
+
                 {!isAuth() && (
                     <>
                         <li className='nav-item'>
