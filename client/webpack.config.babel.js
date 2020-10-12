@@ -1,6 +1,7 @@
 import path from 'path';
 import chalk from 'chalk';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import DefinePlugin from 'extended-define-webpack-plugin';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 import HtmlReplaceWebpackPlugin from 'html-replace-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -8,11 +9,10 @@ import ImageminPlugin from 'imagemin-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ProgressPlugin from 'progress-bar-webpack-plugin';
 
-require('dotenv').config();
-
+const env = require('dotenv').config().parsed;
 const config = require('./config.json');
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = env.NODE_ENV === 'production';
 const {entry, output, styles, assets} = config;
 const plugins = [];
 
@@ -33,6 +33,11 @@ plugins.push(
         },
         robots: isProduction ? 'index, follow' : 'noindex, nofollow',
     })
+);
+
+// Environment variables
+plugins.push(
+    new DefinePlugin({env})
 );
 
 // CSS extract plugin
@@ -119,7 +124,7 @@ module.exports = () => ({
         contentBase: path.resolve(__dirname, output),
         historyApiFallback: true,
         noInfo: true,
-        port: process.env.WEBPACK_PORT || 3010,
+        port: env.WEBPACK_PORT || 3010,
         stats: 'errors-only',
         hot: true,
     },
