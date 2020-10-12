@@ -50,7 +50,7 @@ const signin = (req, res) => {
             user: {
                 name: data.name,
                 email: data.email,
-
+                role: data.role,
             },
         });
     });
