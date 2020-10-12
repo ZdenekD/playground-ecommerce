@@ -32,22 +32,26 @@ const signup = (req, res) => {
 const signin = (req, res) => {
     const {email, password} = req.body;
 
-    User.findOne({email}, (error, user) => {
-        if (error || !user) {
+    User.findOne({email}, (error, data) => {
+        if (error || !data) {
             return res.status(400).json({error: 'User with that e-mail does not exists. Please signup'});
         }
 
-        if (!user.isAuthenticated(password)) {
+        if (!data.isAuthenticated(password)) {
             return res.status(401).json({error: 'E-mail and password do not match'});
         }
 
-        const token = jwt.sign({_id: user._id}, process.env.SECRET);
+        const token = jwt.sign({_id: data._id}, process.env.SECRET);
 
         res.cookie('token', token, {expire: new Date() + 9999});
 
         return res.json({
             token,
-            user,
+            user: {
+                name: data.name,
+                email: data.email,
+
+            },
         });
     });
 };
