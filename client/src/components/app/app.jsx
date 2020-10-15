@@ -7,6 +7,8 @@ import Homepage from '../homepage';
 import Dashboard from '../dashboard';
 import SignUp from '../user/signup';
 import SignIn from '../user/signin';
+import CategoryCreate from '../admin/category/create';
+import ProductCreate from '../admin/product/create';
 
 const App = () => (
     <BrowserRouter>
@@ -25,6 +27,12 @@ const App = () => (
             </PrivateRoute>
             <AdminRoute exact path='/admin/dashboard'>
                 <Admin />
+            </AdminRoute>
+            <AdminRoute exact path='/create/category'>
+                <CategoryCreate />
+            </AdminRoute>
+            <AdminRoute exact path='/create/product'>
+                <ProductCreate />
             </AdminRoute>
         </Switch>
     </BrowserRouter>
