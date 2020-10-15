@@ -23,7 +23,6 @@ const signup = (req, res) => {
             user: {
                 name: data.name,
                 email: data.email,
-
             },
         });
     });
@@ -48,6 +47,7 @@ const signin = (req, res) => {
         return res.json({
             token,
             user: {
+                _id: data._id,
                 name: data.name,
                 email: data.email,
                 role: data.role,
