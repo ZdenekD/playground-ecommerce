@@ -4,6 +4,7 @@ import PrivateRoute from '../../helpers/privateRoute';
 import AdminRoute from '../../helpers/adminRoute';
 import Admin from '../admin';
 import Homepage from '../homepage';
+import Shop from '../shop';
 import Dashboard from '../dashboard';
 import SignUp from '../user/signup';
 import SignIn from '../user/signin';
@@ -15,6 +16,9 @@ const App = () => (
         <Switch>
             <Route exact path='/'>
                 <Homepage />
+            </Route>
+            <Route exact path='/shop'>
+                <Shop />
             </Route>
             <Route exact path='/signin'>
                 <SignIn />

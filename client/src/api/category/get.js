@@ -1,4 +1,4 @@
-import API from '../../../config';
+import API from '../../config';
 
 const get = () => fetch(`${API}/categories`, {method: 'GET'})
     .then(response => response.json())

@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import Layout from '../../../layout';
 import {isAuth} from '../../../../api/user/auth';
 import create from '../../../../api/admin/product/create';
-import get from '../../../../api/admin/category/get';
+import get from '../../../../api/category/get';
 
 const Create = () => {
     const initialState = {

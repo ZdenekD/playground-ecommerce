@@ -4,7 +4,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import signOut from '../../api/user/signout';
 import {isAuth} from '../../api/user/auth';
 
-const Menu = ({history}) => {
+const Navigation = ({history}) => {
     const handleSignOut = () => {
         signOut(() => {
             history.push('/');
@@ -22,6 +22,17 @@ const Menu = ({history}) => {
                         activeClassName='nav-link active'
                     >
                         Home
+                    </NavLink>
+                </li>
+
+                <li className='nav-item'>
+                    <NavLink
+                        exact
+                        to='/shop'
+                        className='nav-link'
+                        activeClassName='nav-link active'
+                    >
+                        Shop
                     </NavLink>
                 </li>
 
@@ -88,6 +99,6 @@ const Menu = ({history}) => {
     );
 };
 
-Menu.propTypes = {history: ReactRouterPropTypes.history.isRequired};
+Navigation.propTypes = {history: ReactRouterPropTypes.history.isRequired};
 
-export default withRouter(Menu);
+export default withRouter(Navigation);
