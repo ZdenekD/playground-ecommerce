@@ -49,14 +49,19 @@ const Homepage = () => {
             <h2 className="mb-4">New arrivals</h2>
             <div className="row">
                 {byArrival.length > 0 && byArrival.map(product => (
-                    <Product key={product._id} product={product} />
+                    <div key={product._id} className="col-4 mb-3">
+                        <Product product={product} />
+                    </div>
                 ))}
+
             </div>
 
             <h2 className="mb-4">Best sellers</h2>
             <div className="row">
                 {bySell.length > 0 && bySell.map(product => (
-                    <Product key={product._id} product={product} />
+                    <div key={product._id} className="col-4 mb-3">
+                        <Product product={product} />
+                    </div>
                 ))}
             </div>
         </Layout>

@@ -116,7 +116,7 @@ const Shop = () => {
                     <h2 className='mb-4'>Products</h2>
                     <div className='row'>
                         {result.length > 0 && (
-                            result.map(product => <Product key={product._id} product={product} />)
+                            result.map(product => <div key={product._id} className="col-4 mb-3"><Product product={product} /></div>)
                         )}
                     </div>
                     {size > 0 && size >= limit && (

@@ -62,8 +62,6 @@ const Search = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    console.log(data);
-
     return (
         <>
             {error && (
@@ -122,7 +120,9 @@ const Search = () => {
                     )}
                     <div className="row">
                         {data.result.length > 0 && data.result.map(product => (
-                            <Product key={product._id} product={product} />
+                            <div key={product._id} className="col-4 mb-3">
+                                <Product product={product} />
+                            </div>
                         ))}
                     </div>
                 </>

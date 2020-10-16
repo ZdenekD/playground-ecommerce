@@ -6,6 +6,7 @@ import Admin from '../admin';
 import Homepage from '../homepage';
 import Shop from '../shop';
 import Dashboard from '../dashboard';
+import Detail from '../detail';
 import SignUp from '../user/signup';
 import SignIn from '../user/signin';
 import CategoryCreate from '../admin/category/create';
@@ -14,18 +15,11 @@ import ProductCreate from '../admin/product/create';
 const App = () => (
     <BrowserRouter>
         <Switch>
-            <Route exact path='/'>
-                <Homepage />
-            </Route>
-            <Route exact path='/shop'>
-                <Shop />
-            </Route>
-            <Route exact path='/signin'>
-                <SignIn />
-            </Route>
-            <Route exact path='/signup'>
-                <SignUp />
-            </Route>
+            <Route exact path='/' component={Homepage} />
+            <Route exact path='/shop' component={Shop} />
+            <Route exact path='/signin' component={SignIn} />
+            <Route exact path='/signup' component={SignUp} />
+            <Route exact path='/product/:productId' component={Detail} />
             <PrivateRoute exact path='/user/dashboard'>
                 <Dashboard />
             </PrivateRoute>
