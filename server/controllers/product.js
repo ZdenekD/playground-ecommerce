@@ -264,15 +264,18 @@ const listSearch = (req, res) => {
 };
 
 const productById = (req, res, next, id) => {
-    Product.findById(id).exec((error, product) => {
-        if (error || !product) {
-            res.status(400).json({error: 'Product not found'});
-        }
+    Product
+        .findById(id)
+        .populate('category')
+        .exec((error, product) => {
+            if (error || !product) {
+                res.status(400).json({error: 'Product not found'});
+            }
 
-        req.product = product;
+            req.product = product;
 
-        next();
-    });
+            next();
+        });
 };
 
 export {
