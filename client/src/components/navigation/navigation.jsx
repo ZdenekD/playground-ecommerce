@@ -3,6 +3,7 @@ import {NavLink, withRouter} from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import signOut from '../../api/user/signout';
 import {isAuth} from '../../api/user/auth';
+import totalItems from '../cart/totalItems';
 
 const Navigation = ({history}) => {
     const handleSignOut = () => {
@@ -33,6 +34,17 @@ const Navigation = ({history}) => {
                         activeClassName='nav-link active'
                     >
                         Shop
+                    </NavLink>
+                </li>
+
+                <li className='nav-item'>
+                    <NavLink
+                        exact
+                        to='/cart'
+                        className='nav-link'
+                        activeClassName='nav-link active'
+                    >
+                        Cart <sup className='badge badge-primary'>{totalItems()}</sup>
                     </NavLink>
                 </li>
 
