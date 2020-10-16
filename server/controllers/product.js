@@ -240,6 +240,29 @@ const listBySearch = (req, res) => {
         });
 };
 
+const listSearch = (req, res) => {
+    const query = {};
+
+    if (req.query.search) {
+        query.name = {$regex: req.query.search, $options: 'i'};
+
+        if (req.query.category && req.query.category !== 'all') {
+            query.category = req.query.category;
+        }
+
+        Product
+            // eslint-disable-next-line consistent-return
+            .find(query, (error, data) => {
+                if (error) {
+                    return res.status(400).json({error: handleError(req)});
+                }
+
+                res.json(data);
+            })
+            .select('-image');
+    }
+};
+
 const productById = (req, res, next, id) => {
     Product.findById(id).exec((error, product) => {
         if (error || !product) {
@@ -253,5 +276,15 @@ const productById = (req, res, next, id) => {
 };
 
 export {
-    create, read, remove, update, list, productImage, listRelated, listCategories, listBySearch, productById
+    create,
+    read,
+    remove,
+    update,
+    list,
+    productImage,
+    listRelated,
+    listCategories,
+    listBySearch,
+    listSearch,
+    productById
 };
