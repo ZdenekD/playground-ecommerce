@@ -2,6 +2,7 @@ import React from 'react';
 import get from '../../api/products/get';
 import Layout from '../layout';
 import Product from '../product';
+import Search from '../search';
 
 const Homepage = () => {
     const [bySell, setBySell] = React.useState([]);
@@ -42,6 +43,8 @@ const Homepage = () => {
                     {error}
                 </div>
             )}
+
+            <Search />
 
             <h2 className="mb-4">New arrivals</h2>
             <div className="row">
