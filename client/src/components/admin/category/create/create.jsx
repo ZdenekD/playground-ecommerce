@@ -9,6 +9,16 @@ const Create = () => {
     const [error, setError] = React.useState('');
     const [success, setSuccess] = React.useState(false);
     const {user, token} = isAuth();
+    const handleCreate = async () => {
+        try {
+            await create(user._id, token, {name});
+
+            setError('');
+            setSuccess(true);
+        } catch (err) {
+            setError(err);
+        }
+    };
     const handleChange = event => {
         setError('');
         setName(event.target.value);
@@ -18,15 +28,7 @@ const Create = () => {
 
         setError('');
         setSuccess(false);
-        create(user._id, token, {name})
-            .then(data => {
-                if (data.error) {
-                    setError(data.error);
-                } else {
-                    setError('');
-                    setSuccess(true);
-                }
-            });
+        handleCreate();
     };
 
     return (

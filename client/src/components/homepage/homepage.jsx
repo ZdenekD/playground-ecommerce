@@ -8,23 +8,23 @@ const Homepage = () => {
     const [bySell, setBySell] = React.useState([]);
     const [byArrival, setByArrival] = React.useState([]);
     const [error, setError] = React.useState('');
-    const getBySell = () => {
-        get('sold').then(response => {
-            if (response.error) {
-                setError(response.error);
-            } else {
-                setBySell(response);
-            }
-        });
+    const getBySell = async () => {
+        try {
+            const response = await get('sold');
+
+            setBySell(response);
+        } catch (err) {
+            setError(err);
+        }
     };
-    const getByArrival = () => {
-        get('createdAt').then(response => {
-            if (response.error) {
-                setError(response.error);
-            } else {
-                setByArrival(response);
-            }
-        });
+    const getByArrival = async () => {
+        try {
+            const response = await get('createdAt');
+
+            setByArrival(response);
+        } catch (err) {
+            setError(err);
+        }
     };
 
     React.useEffect(() => {

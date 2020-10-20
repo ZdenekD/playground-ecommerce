@@ -24,6 +24,20 @@ const Create = () => {
     };
     const [data, setData] = React.useState(initialState);
     const {user, token} = isAuth();
+    const handleCreate = async () => {
+        try {
+            const response = await create(user._id, token, data.formData);
+
+            setData({
+                ...initialState,
+                loading: false,
+                success: true,
+                createdProduct: response.name,
+            });
+        } catch (err) {
+            setData({...data, err});
+        }
+    };
     const handleChange = event => {
         event.persist();
 
@@ -43,27 +57,21 @@ const Create = () => {
         setData({
             ...data, error: '', loading: true,
         });
-        create(user._id, token, data.formData)
-            .then(response => {
-                if (response.error) {
-                    setData({...data, error: response.error});
-                } else {
-                    setData({
-                        ...initialState, loading: false, success: true, createdProduct: response.name,
-                    });
-                }
-            });
+
+        handleCreate();
     };
-    const initialize = () => {
-        get().then(response => {
-            if (response.error) {
-                setData({...data, error: response.error});
-            } else {
-                setData({
-                    ...data, categories: response, formData: new FormData(),
-                });
-            }
-        });
+    const initialize = async () => {
+        try {
+            const response = await get();
+
+            setData({
+                ...data,
+                categories: response,
+                formData: new FormData(),
+            });
+        } catch (err) {
+            setData({...data, err});
+        }
     };
 
     React.useEffect(() => {

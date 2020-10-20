@@ -13,33 +13,31 @@ const Search = () => {
     };
     const [data, setData] = React.useState(initialState);
     const [error, setError] = React.useState('');
-    const initialize = () => {
-        get()
-            .then(response => {
-                if (response.error) {
-                    setError(response.error);
-                } else {
-                    setData({...data, categories: response});
-                }
-            });
+    const initialize = async () => {
+        try {
+            const response = await get();
+
+            setData({...data, categories: response});
+        } catch (err) {
+            setError(err);
+        }
     };
-    const handleSearch = () => {
+    const handleSearch = async () => {
         if (data.search) {
-            search({
-                search: data.search || undefined,
-                category: data.category,
-            })
-                .then(response => {
-                    if (response.error) {
-                        setError(response.error);
-                    } else {
-                        setData({
-                            ...data,
-                            result: response,
-                            isSearched: true,
-                        });
-                    }
+            try {
+                const response = await search({
+                    search: data.search || undefined,
+                    category: data.category,
                 });
+
+                setData({
+                    ...data,
+                    result: response,
+                    isSearched: true,
+                });
+            } catch (err) {
+                setError(err);
+            }
         }
     };
     const handleSubmit = event => {

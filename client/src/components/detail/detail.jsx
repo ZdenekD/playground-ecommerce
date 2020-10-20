@@ -9,26 +9,24 @@ const Detail = props => {
     const [product, setProduct] = React.useState({});
     const [related, setRelated] = React.useState([]);
     const [error, setError] = React.useState('');
-    const getRelated = id => {
-        relatedProduct(id)
-            .then(response => {
-                if (response.error) {
-                    setError(response.error);
-                } else {
-                    setRelated(response);
-                }
-            });
+    const getRelated = async id => {
+        try {
+            const response = await relatedProduct(id);
+
+            setRelated(response);
+        } catch (err) {
+            setError(err);
+        }
     };
-    const getProduct = id => {
-        detail(id)
-            .then(response => {
-                if (response.error) {
-                    setError(response.error);
-                } else {
-                    setProduct(response);
-                    getRelated(response._id);
-                }
-            });
+    const getProduct = async id => {
+        try {
+            const response = await detail(id);
+
+            setProduct(response);
+            getRelated(response._id);
+        } catch (err) {
+            setError(err);
+        }
     };
 
     React.useEffect(() => {

@@ -22,26 +22,24 @@ const SignUp = () => {
             [name]: value,
         });
     };
-    const handleClick = event => {
+    const handleClick = async event => {
         event.preventDefault();
 
         const {name, email, password} = data;
 
         setData({...data, error: ''});
-        signUp({
-            name,
-            email,
-            password,
-        })
-            .then(response => {
-                if (response.error) {
-                    setData({
-                        ...data, error: response.error, success: false,
-                    });
-                } else {
-                    setData({...initialState, success: true});
-                }
+
+        try {
+            await signUp({
+                name, email, password,
             });
+
+            setData({...initialState, success: true});
+        } catch (error) {
+            setData({
+                ...data, error, success: false,
+            });
+        }
     };
 
     return (

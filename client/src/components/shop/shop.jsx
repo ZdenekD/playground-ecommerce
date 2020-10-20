@@ -21,26 +21,25 @@ const Shop = () => {
     const [skip, setSkip] = React.useState(0);
     const [size, setSize] = React.useState(0);
     const [error, setError] = React.useState('');
-    const initialize = () => {
-        get().then(response => {
-            if (response.error) {
-                setError(response.error);
-            } else {
-                setCategories(response);
-            }
-        });
+    const initialize = async () => {
+        try {
+            const response = await get();
+
+            setCategories(response);
+        } catch (err) {
+            setError(err);
+        }
     };
-    const filterResults = filters => {
-        filterProducts(skip, limit, filters)
-            .then(response => {
-                if (response.error) {
-                    setError(response.error);
-                } else {
-                    setResult(response.data);
-                    setSize(response.size);
-                    setSkip(0);
-                }
-            });
+    const filterResults = async filters => {
+        try {
+            const response = await filterProducts(skip, limit, filters);
+
+            setResult(response.data);
+            setSize(response.size);
+            setSkip(0);
+        } catch (err) {
+            setError(err);
+        }
     };
     const handlePrice = value => {
         const data = prices;
@@ -68,19 +67,18 @@ const Shop = () => {
         filterResults(filter.filters);
         setFilter(updated);
     };
-    const handleMore = () => {
+    const handleMore = async () => {
         const toSkip = skip + limit;
 
-        filterProducts(toSkip, limit, filter.filters)
-            .then(response => {
-                if (response.error) {
-                    setError(response.error);
-                } else {
-                    setResult([...result, ...response.data]);
-                    setSize(response.size);
-                    setSkip(toSkip);
-                }
-            });
+        try {
+            const response = await filterProducts(toSkip, limit, filter.filters);
+
+            setResult([...result, ...response.data]);
+            setSize(response.size);
+            setSkip(toSkip);
+        } catch (err) {
+            setError(err);
+        }
     };
 
     React.useEffect(() => {

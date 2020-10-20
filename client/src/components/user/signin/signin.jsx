@@ -24,7 +24,7 @@ const SignIn = () => {
             [name]: value,
         });
     };
-    const handleClick = event => {
+    const handleClick = async event => {
         event.preventDefault();
 
         const {email, password} = data;
@@ -32,23 +32,20 @@ const SignIn = () => {
         setData({
             ...data, error: '', loading: true,
         });
-        signIn({
-            email,
-            password,
-        })
-            .then(response => {
-                if (response.error) {
-                    setData({
-                        ...data, error: response.error, loading: false,
-                    });
-                } else {
-                    auth(response, () => {
-                        setData({
-                            ...initialState, loading: false, redirectTo: true,
-                        });
-                    });
-                }
+
+        try {
+            const response = await signIn({email, password});
+
+            auth(response, () => {
+                setData({
+                    ...initialState, loading: false, redirectTo: true,
+                });
             });
+        } catch (error) {
+            setData({
+                ...data, error, loading: false,
+            });
+        }
     };
     // eslint-disable-next-line consistent-return
     const handleRedirect = () => {
