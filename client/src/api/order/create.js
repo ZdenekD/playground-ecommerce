@@ -1,13 +1,13 @@
-import API from '../../../config';
+import API from '../../config';
 
-const create = (id, token, product) => fetch(`${API}/product/create/${id}`, {
+const create = (id, token, data) => fetch(`${API}/order/create/${id}`, {
     method: 'POST',
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
     },
-    body: product,
+    body: JSON.stringify({order: data}),
 })
     .then(response => response.json())
     .catch(error => console.log(error));

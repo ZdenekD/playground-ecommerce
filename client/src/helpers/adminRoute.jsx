@@ -1,7 +1,7 @@
 import React from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {isAuth} from '../api/user/auth';
+import {isAuth} from '../api/user/helpers/auth';
 
 const AdminRoute = ({children, ...rest}) => (
     <Route

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import Layout from '../layout';
-import {isAuth} from '../../api/user/auth';
+import {isAuth} from '../../api/user/helpers/auth';
 
 const Dashboard = () => {
     const {user: {name, email, role}} = isAuth();

@@ -1,15 +1,14 @@
 import API from '../../../config';
 
-const create = (id, token, product) => fetch(`${API}/product/create/${id}`, {
-    method: 'POST',
+const list = (id, token) => fetch(`${API}/order/list/${id}`, {
+    method: 'GET',
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
     },
-    body: product,
 })
     .then(response => response.json())
     .catch(error => console.log(error));
 
-export default create;
+export default list;

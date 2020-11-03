@@ -2,7 +2,7 @@ import React from 'react';
 import {Redirect} from 'react-router-dom';
 import Layout from '../../layout';
 import signIn from '../../../api/user/signin';
-import {auth, isAuth} from '../../../api/user/auth';
+import {auth, isAuth} from '../../../api/user/helpers/auth';
 
 const SignIn = () => {
     const initialState = {

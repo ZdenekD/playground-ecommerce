@@ -8,6 +8,7 @@ import Shop from '../shop';
 import Cart from '../cart';
 import Dashboard from '../dashboard';
 import Detail from '../detail';
+import Orders from '../orders';
 import SignUp from '../user/signup';
 import SignIn from '../user/signin';
 import CategoryCreate from '../admin/category/create';
@@ -33,6 +34,9 @@ const App = () => (
             </AdminRoute>
             <AdminRoute exact path='/create/product'>
                 <ProductCreate />
+            </AdminRoute>
+            <AdminRoute exact path='/admin/orders'>
+                <Orders />
             </AdminRoute>
         </Switch>
     </BrowserRouter>

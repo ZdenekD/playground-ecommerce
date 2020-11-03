@@ -1,15 +1,18 @@
 import API from '../../../config';
 
-const create = (id, token, product) => fetch(`${API}/product/create/${id}`, {
-    method: 'POST',
+const updateStatus = (id, token, orderId, status) => fetch(`${API}/order/${orderId}/status/${id}`, {
+    method: 'PUT',
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
     },
-    body: product,
+    body: JSON.stringify({
+        status,
+        orderId,
+    }),
 })
     .then(response => response.json())
     .catch(error => console.log(error));
 
-export default create;
+export default updateStatus;

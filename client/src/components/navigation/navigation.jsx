@@ -2,7 +2,7 @@ import React from 'react';
 import {NavLink, withRouter} from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import signOut from '../../api/user/signout';
-import {isAuth} from '../../api/user/auth';
+import {isAuth} from '../../api/user/helpers/auth';
 import totalItems from '../cart/totalItems';
 
 const Navigation = ({history}) => {

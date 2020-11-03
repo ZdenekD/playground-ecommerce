@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import Layout from '../layout';
-import {isAuth} from '../../api/user/auth';
+import {isAuth} from '../../api/user/helpers/auth';
 
 const Admin = () => {
     const {user: {name, email}} = isAuth();
@@ -22,6 +22,9 @@ const Admin = () => {
                             </li>
                             <li className='list-group-item'>
                                 <Link to='/create/product' className='nav-link'>Create product</Link>
+                            </li>
+                            <li className='list-group-item'>
+                                <Link to='/admin/orders' className='nav-link'>View orders</Link>
                             </li>
                         </ul>
                     </div>

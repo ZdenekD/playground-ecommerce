@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import DropIn from 'braintree-web-drop-in-react';
-import {isAuth} from '../../api/user/auth';
+import {isAuth} from '../../api/user/helpers/auth';
 import get from '../../api/payment/token';
 import process from '../../api/payment/process';
 import emptyCart from '../cart/emptyCart';
+import createOrder from '../../api/order/create';
 
 const Checkout = ({products, setUpdate}) => {
     const initialState = {
@@ -40,9 +41,16 @@ const Checkout = ({products, setUpdate}) => {
             };
 
             const response = await process(userId, userToken, values);
+            const orderData = {
+                products,
+                transactionId: response.transaction.id,
+                amount: response.transaction.amount,
+                address: data.address,
+            };
 
+            createOrder(userId, userToken, orderData);
             setData({
-                ...data, success: response.success, loading: false,
+                ...data, success: true, loading: false,
             });
             emptyCart(() => {
                 setUpdate();
@@ -52,6 +60,9 @@ const Checkout = ({products, setUpdate}) => {
                 ...data, error: error.message || error, loading: false,
             });
         }
+    };
+    const handleAddress = event => {
+        setData({...data, address: event.target.value});
     };
 
     React.useEffect(() => {
@@ -82,7 +93,7 @@ const Checkout = ({products, setUpdate}) => {
             )}
 
             <div className='alert alert-primary'>
-                <div className="mb-2">
+                <div className='mb-2'>
                     Total price: ${total()}
                 </div>
 
@@ -91,6 +102,17 @@ const Checkout = ({products, setUpdate}) => {
                         <>
                             {data.token && products.length > 0 && (
                                 <div onBlur={() => setData({...data, error: ''})}>
+                                    <div className='form-group mb-3'>
+                                        <label htmlFor='address' className='text-muted'>Address</label>
+                                        <textarea
+                                            name='address'
+                                            id='address'
+                                            className='form-control'
+                                            value={data.address}
+                                            placeholder='Type your delivery address here ...'
+                                            onChange={handleAddress}
+                                        ></textarea>
+                                    </div>
                                     <DropIn
                                         options={{
                                             authorization: data.token,

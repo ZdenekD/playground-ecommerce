@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import Layout from '../../../layout';
-import {isAuth} from '../../../../api/user/auth';
+import {isAuth} from '../../../../api/user/helpers/auth';
 import create from '../../../../api/admin/product/create';
 import get from '../../../../api/category/get';
 
