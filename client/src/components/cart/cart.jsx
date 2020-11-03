@@ -31,7 +31,7 @@ const Cart = () => {
 
                     <div className="row">
                         <div className="col-12">
-                            <Checkout products={products} />
+                            <Checkout products={products} setUpdate={setUpdate} />
                         </div>
                     </div>
 
