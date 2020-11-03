@@ -30,17 +30,40 @@ const update = (req, res) => {
 
 const userById = (req, res, next, id) => {
     // eslint-disable-next-line consistent-return
-    User.findById(id).exec((error, user) => {
-        if (error || !user) {
+    User.findById(id).exec((error, data) => {
+        if (error || !data) {
             return res.status(400).json({error: 'User not found'});
         }
 
-        req.profile = user;
+        req.profile = data;
 
         next();
     });
 };
 
-export {read, update};
+const history = (req, res, next) => {
+    const order = [];
+
+    req.body.order.products.forEach(product => {
+        order.push({
+            ...product,
+            transactionId: req.body.order.transactionId,
+            amount: req.body.order.amount,
+        });
+    });
+
+    // eslint-disable-next-line consistent-return
+    User.findOneAndUpdate({_id: req.profile._id}, {$push: {history: order}}, {new: true}, error => {
+        if (error) {
+            return res.status(400).json({error: 'Could not update user purchase history.'});
+        }
+
+        next();
+    });
+};
+
+export {
+    read, update, history
+};
 
 export default userById;

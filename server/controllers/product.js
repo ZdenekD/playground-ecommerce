@@ -267,15 +267,33 @@ const productById = (req, res, next, id) => {
     Product
         .findById(id)
         .populate('category')
-        .exec((error, product) => {
-            if (error || !product) {
+        .exec((error, data) => {
+            if (error || !data) {
                 res.status(400).json({error: 'Product not found'});
             }
 
-            req.product = product;
+            req.product = data;
 
             next();
         });
+};
+
+const updateQuantity = (req, res, next) => {
+    const options = req.body.order.products.map(product => ({
+        updateOne: {
+            filter: {_id: product._id},
+            update: {$inc: {quantity: -product.count, sold: +product.count}},
+        },
+    }));
+
+    // eslint-disable-next-line consistent-return
+    Product.bulkWrite(options, {}, error => {
+        if (error) {
+            return res.status(400).json({error: 'Could not update product'});
+        }
+
+        next();
+    });
 };
 
 export {
@@ -289,5 +307,6 @@ export {
     listCategories,
     listBySearch,
     listSearch,
-    productById
+    productById,
+    updateQuantity
 };

@@ -10,22 +10,21 @@ const gateway = new braintree.BraintreeGateway({
     privateKey: process.env.PAYMENT_PRIVATE_KEY,
 });
 const generate = (req, res) => {
-    gateway.clientToken.generate({}, (error, response) => {
+    gateway.clientToken.generate({}, (error, data) => {
         if (error) {
             res.status(500).send(error);
         } else {
-            res.send(response);
+            res.send(data);
         }
     });
 };
 
 const payment = (req, res) => {
-    const callback = (error, result) => {
-        console.log(error);
+    const callback = (error, data) => {
         if (error) {
             res.status(500).json(error);
         } else {
-            res.json(result);
+            res.json(data);
         }
     };
     const nonce = req.body.paymentMethodNonce;

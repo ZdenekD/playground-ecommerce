@@ -10,6 +10,7 @@ import userRoutes from './routes/user';
 import categoryRoutes from './routes/category';
 import productRoutes from './routes/product';
 import paymentRoutes from './routes/payment';
+import orderRoutes from './routes/order';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ server.use('/api', userRoutes);
 server.use('/api', categoryRoutes);
 server.use('/api', productRoutes);
 server.use('/api', paymentRoutes);
+server.use('/api', orderRoutes);
 
 server.listen(port, error => {
     if (error) {

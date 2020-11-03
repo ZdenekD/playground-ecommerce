@@ -55,12 +55,12 @@ const list = (req, res) => {
 
 const categoryById = (req, res, next, id) => {
     // eslint-disable-next-line consistent-return
-    Category.findById(id).exec((error, category) => {
-        if (error || !category) {
+    Category.findById(id).exec((error, data) => {
+        if (error || !data) {
             return res.status(400).json({error: 'Category does not exists'});
         }
 
-        req.category = category;
+        req.category = data;
 
         next();
     });
