@@ -1,4 +1,4 @@
-const auth = (data, callback) => {
+const auth = (data, callback = () => {}) => {
     if (typeof window !== 'undefined') {
         localStorage.setItem('token', JSON.stringify(data));
 

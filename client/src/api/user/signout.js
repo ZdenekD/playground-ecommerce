@@ -1,7 +1,7 @@
 import API from '../../config';
 
 // eslint-disable-next-line consistent-return
-const signOut = callback => {
+const signOut = (callback = () => {}) => {
     if (typeof window !== 'undefined') {
         localStorage.removeItem('token');
 

@@ -1,4 +1,4 @@
-const addItem = (item, callback) => {
+const addItem = (item, callback = () => {}) => {
     let cart = [];
 
     if (typeof window !== 'undefined') {
