@@ -1,6 +1,6 @@
 import React from 'react';
 import Product from '../product';
-import get from '../../api/category/get';
+import read from '../../api/categories/read';
 import search from '../../api/products/search';
 
 const Search = () => {
@@ -15,9 +15,7 @@ const Search = () => {
     const [error, setError] = React.useState('');
     const initialize = async () => {
         try {
-            const response = await get();
-
-            setData({...data, categories: response});
+            setData({...data, categories: await read()});
         } catch (err) {
             setError(err);
         }

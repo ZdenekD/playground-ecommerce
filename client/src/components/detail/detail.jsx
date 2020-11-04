@@ -11,9 +11,7 @@ const Detail = props => {
     const [error, setError] = React.useState('');
     const getRelated = async id => {
         try {
-            const response = await relatedProduct(id);
-
-            setRelated(response);
+            setRelated(await relatedProduct(id));
         } catch (err) {
             setError(err);
         }

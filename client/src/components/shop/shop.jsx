@@ -3,7 +3,7 @@ import Layout from '../layout';
 import Product from '../product';
 import Categories from '../filter/categories';
 import Prices from '../filter/prices';
-import get from '../../api/category/get';
+import read from '../../api/categories/read';
 import filterProducts from '../../api/products/filter';
 import prices from '../../data/prices';
 
@@ -17,15 +17,13 @@ const Shop = () => {
     const [categories, setCategories] = React.useState([]);
     const [filter, setFilter] = React.useState(initialState);
     const [result, setResult] = React.useState([]);
-    const [limit, setLimit] = React.useState(6);
     const [skip, setSkip] = React.useState(0);
     const [size, setSize] = React.useState(0);
     const [error, setError] = React.useState('');
+    const limit = 6;
     const initialize = async () => {
         try {
-            const response = await get();
-
-            setCategories(response);
+            setCategories(await read());
         } catch (err) {
             setError(err);
         }

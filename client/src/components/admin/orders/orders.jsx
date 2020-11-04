@@ -1,25 +1,25 @@
 /* eslint-disable jsx-a11y/no-onchange */
 import React from 'react';
-// import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import moment from 'moment';
-import Layout from '../layout';
-import {isAuth} from '../../api/user/helpers/auth';
-import list from '../../api/admin/orders/list';
-import statuses from '../../api/admin/orders/statuses';
-import updateStatus from '../../api/admin/orders/updateStatus';
+import Layout from '../../layout';
+import {isAuth} from '../../../api/user/helpers/auth';
+import list from '../../../api/admin/orders/list';
+import statuses from '../../../api/admin/orders/statuses';
+import updateStatus from '../../../api/admin/orders/updateStatus';
 
 const Orders = () => {
     const [data, setData] = React.useState([]);
     const [values, setValues] = React.useState([]);
     const {user, token} = isAuth();
-    const load = async () => {
+    const initialize = async () => {
         try {
             setData(await list(user._id, token));
         } catch (error) {
             setData({...data, error});
         }
     };
-    const loadStatuses = async () => {
+    const getStatuses = async () => {
         try {
             setValues(await statuses(user._id, token));
         } catch (error) {
@@ -30,15 +30,15 @@ const Orders = () => {
         try {
             await updateStatus(user._id, token, order._id, event.target.value);
 
-            load();
+            initialize();
         } catch (error) {
             setData({...data, error});
         }
     };
 
     React.useEffect(() => {
-        load();
-        loadStatuses();
+        initialize();
+        getStatuses();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -48,6 +48,17 @@ const Orders = () => {
             description='Orders administration'
             className='container col-md-8 offset-md-2'
         >
+            <nav aria-label='breadcrumb' className='mb-5'>
+                <ol className='breadcrumb'>
+                    <li className='breadcrumb-item'>
+                        <Link to='/admin/dashboard'>Dashboard</Link>
+                    </li>
+                    <li className='breadcrumb-item active'>
+                        Orders list
+                    </li>
+                </ol>
+            </nav>
+
             {data.error && (
                 <div className='alert alert-danger'>
                     {data.error}

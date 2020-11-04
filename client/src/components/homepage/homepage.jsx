@@ -1,5 +1,5 @@
 import React from 'react';
-import get from '../../api/products/get';
+import read from '../../api/products/read';
 import Layout from '../layout';
 import Product from '../product';
 import Search from '../search';
@@ -10,18 +10,14 @@ const Homepage = () => {
     const [error, setError] = React.useState('');
     const getBySell = async () => {
         try {
-            const response = await get('sold');
-
-            setBySell(response);
+            setBySell(await read('sold'));
         } catch (err) {
             setError(err);
         }
     };
     const getByArrival = async () => {
         try {
-            const response = await get('createdAt');
-
-            setByArrival(response);
+            setByArrival(await read('createdAt'));
         } catch (err) {
             setError(err);
         }

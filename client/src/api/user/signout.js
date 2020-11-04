@@ -7,9 +7,7 @@ const signOut = (callback = () => {}) => {
 
         callback();
 
-        return fetch(`${API}/signout`, {method: 'GET'})
-            .then(response => console.log(response))
-            .catch(error => console.log(error));
+        return fetch(`${API}/signout`, {method: 'GET'});
     }
 };
 

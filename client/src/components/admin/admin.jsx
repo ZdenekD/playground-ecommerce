@@ -18,10 +18,13 @@ const Admin = () => {
                         <h4 className='card-header'>Links</h4>
                         <ul className='list-group'>
                             <li className='list-group-item'>
-                                <Link to='/create/category' className='nav-link'>Create category</Link>
+                                <Link to='/admin/category/create' className='nav-link'>Create category</Link>
                             </li>
                             <li className='list-group-item'>
-                                <Link to='/create/product' className='nav-link'>Create product</Link>
+                                <Link to='/admin/product/create' className='nav-link'>Create product</Link>
+                            </li>
+                            <li className='list-group-item'>
+                                <Link to='/admin/products/manage' className='nav-link'>Manage products</Link>
                             </li>
                             <li className='list-group-item'>
                                 <Link to='/admin/orders' className='nav-link'>View orders</Link>

@@ -1,11 +1,12 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import Layout from '../../../layout';
 import {isAuth} from '../../../../api/user/helpers/auth';
-import create from '../../../../api/admin/product/create';
-import read from '../../../../api/categories/read';
+import readProduct from '../../../../api/admin/product/read';
+import updateProduct from '../../../../api/admin/product/update';
+import readCategories from '../../../../api/categories/read';
 
-const Create = () => {
+const Update = () => {
     const initialState = {
         name: '',
         description: '',
@@ -19,20 +20,22 @@ const Create = () => {
         loading: false,
         error: '',
         success: false,
-        createdProduct: '',
+        updatedProduct: '',
         redirectTo: false,
     };
     const [data, setData] = React.useState(initialState);
     const {user, token} = isAuth();
-    const handleCreate = async () => {
+    const {productId} = useParams();
+    const handleUpdate = async () => {
         try {
-            const {name} = await create(user._id, token, data.formData);
+            const product = await updateProduct(user._id, token, productId, data.formData);
 
             setData({
-                ...initialState,
+                ...data,
+                ...await readProduct(productId),
                 loading: false,
                 success: true,
-                createdProduct: name,
+                updatedProduct: product.name,
             });
         } catch (error) {
             setData({...data, error});
@@ -58,13 +61,14 @@ const Create = () => {
             ...data, error: '', loading: true,
         });
 
-        handleCreate();
+        handleUpdate();
     };
     const initialize = async () => {
         try {
             setData({
                 ...data,
-                categories: await read(),
+                ...await readProduct(productId),
+                categories: await readCategories(),
                 formData: new FormData(),
             });
         } catch (error) {
@@ -79,8 +83,8 @@ const Create = () => {
 
     return (
         <Layout
-            title='Add a new product'
-            description={`Welcome ${user.name}! Ready to create a new product?`}
+            title='Update a product'
+            description={`Welcome ${user.name}! Ready to update a product?`}
             className='container col-md-8 offset-md-2'
         >
             <nav aria-label='breadcrumb' className='mb-5'>
@@ -89,7 +93,7 @@ const Create = () => {
                         <Link to='/admin/dashboard'>Dashboard</Link>
                     </li>
                     <li className='breadcrumb-item active'>
-                        Create product
+                        Update product
                     </li>
                 </ol>
             </nav>
@@ -102,7 +106,7 @@ const Create = () => {
 
             {data.success && (
                 <div className="alert alert-info">
-                    New product <strong>{data.createdProduct}</strong> is created.
+                    Product <strong>{data.updatedProduct}</strong> is updated.
                 </div>
             )}
 
@@ -207,4 +211,4 @@ const Create = () => {
     );
 };
 
-export default Create;
+export default Update;

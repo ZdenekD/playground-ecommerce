@@ -6,6 +6,7 @@ import {isAuth} from '../../api/user/helpers/auth';
 import totalItems from '../cart/totalItems';
 
 const Navigation = ({history}) => {
+    const isAdmin = isAuth().user.role === 1;
     const handleSignOut = () => {
         signOut(() => {
             history.push('/');
@@ -48,7 +49,7 @@ const Navigation = ({history}) => {
                     </NavLink>
                 </li>
 
-                {isAuth() && isAuth().user.role === 0 && (
+                {isAuth() && !isAdmin && (
                     <li className='nav-item'>
                         <NavLink
                             exact
@@ -61,7 +62,7 @@ const Navigation = ({history}) => {
                     </li>
                 )}
 
-                {isAuth() && isAuth().user.role === 1 && (
+                {isAuth() && isAdmin && (
                     <li className='nav-item'>
                         <NavLink
                             exact

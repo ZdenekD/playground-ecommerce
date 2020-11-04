@@ -40,11 +40,11 @@ const Checkout = ({products, setUpdate}) => {
                 amount: total(),
             };
 
-            const response = await process(userId, userToken, values);
+            const {transaction} = await process(userId, userToken, values);
             const orderData = {
                 products,
-                transactionId: response.transaction.id,
-                amount: response.transaction.amount,
+                transactionId: transaction.id,
+                amount: transaction.amount,
                 address: data.address,
             };
 
