@@ -1,4 +1,6 @@
+import handleError from '../helpers/error';
 import User from '../models/user';
+import Order from '../models/order';
 
 const read = (req, res) => {
     req.profile.hashed = undefined;
@@ -62,8 +64,22 @@ const history = (req, res, next) => {
     });
 };
 
+const orders = (req, res) => {
+    Order.find({user: req.profile._id})
+        .populate('user', '_id name')
+        .sort('-created')
+        // eslint-disable-next-line consistent-return
+        .exec((error, data) => {
+            if (error) {
+                return res.status(400).json({error: handleError(req)});
+            }
+
+            res.json(data);
+        });
+};
+
 export {
-    read, update, history
+    read, update, history, orders
 };
 
 export default userById;

@@ -17,9 +17,9 @@ const OrderSchema = new mongoose.Schema({
             'Delivered',
             'Canceled',
         ],
-        updated: Date,
-        user: {type: ObjectId, ref: 'User'},
     },
+    updated: Date,
+    user: {type: ObjectId, ref: 'User'},
 }, {timestamps: true});
 
 export default mongoose.model('Order', OrderSchema);
