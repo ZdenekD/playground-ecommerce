@@ -1,27 +1,13 @@
 {
   "env": {
     "browser": true,
-    "node": true,
-    "jest": true
+    "node": true
   },
   "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "sourceType": "module"
   },
-  "plugins": ["react", "react-hooks"],
-  "extends": ["airbnb-base", "plugin:react/recommended", "plugin:jest/recommended", "plugin:jsx-a11y/recommended"],
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx"]
-      }
-    },
-    "react": {
-      "version": "detect"
-    }
-  },
+  "extends": ["airbnb-base"],
   "rules": {
     // Enforce line breaks between array elements
     "array-element-newline": [
@@ -159,50 +145,6 @@
         "asyncArrow": "always"
       }
     ],
-    // Forbid certain propTypes
-    "react/forbid-prop-types": [0],
-    // Enforce JSX indentation
-    "react/jsx-indent": ["error", 4],
-    // Validate props indentation in JSX
-    "react/jsx-indent-props": ["error", 4],
-    // This rule checks all JSX components and verifies that all props are sorted alphabetically. A spread attribute resets the verification. The default configuration of the rule is case-sensitive.
-    "react/jsx-sort-props": [
-      "warn",
-      {
-        "callbacksLast": true,
-        "shorthandFirst": true,
-        "shorthandLast": false,
-        "ignoreCase": false,
-        "noSortAlphabetically": true,
-        "reservedFirst": true
-      }
-    ],
-    // Prevent definitions of unused state
-    "react/no-unused-state": 0,
-    // Enforce consistent usage of destructuring assignment of props, state, and context
-    "react/destructuring-assignment": [
-      1,
-      "always",
-      {
-        "ignoreClassFields": true
-      }
-    ],
-    // Checks rules of Hooks
-    "react-hooks/rules-of-hooks": "error",
-    // Checks effect dependencies
-    "react-hooks/exhaustive-deps": "warn",
-    // Enforce that a label tag has a text label and an associated control.
-    "jsx-a11y/label-has-associated-control": 1,
-    "jsx-a11y/label-has-for": [
-      1,
-      {
-        "required": {
-          "some": ["nesting", "id"]
-        }
-      }
-    ],
-    // Enforce valid expect() usage (valid-expect)
-    "jest/valid-expect": 1,
     // Off import errors (becauseof webpack config)
     "import/no-extraneous-dependencies": 1,
     "import/no-unresolved": 1,

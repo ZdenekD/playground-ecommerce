@@ -5,10 +5,7 @@ import App from './components/app';
 const app = document.getElementById('js_main');
 
 const renderApp = () => {
-    render(
-        <App />,
-        app
-    );
+    render(<App />, app);
 };
 
 if (app) {
